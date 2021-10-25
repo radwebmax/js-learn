@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+</head>
+<style>
+    body{
+        background: #1c1c1d;
+        color: #fc0;
+    }
+    input{
+        width: 95%;
+        background: none;
+        border: 1px solid #fc0;
+        border-radius: 4px;
+        color: white;
+        padding-left: 10px;
+        height: 30px;
+    }
+    .search-wrapper{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .search-input {
+        display: none;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        position: relative;
+    }
+    .search-input.active{
+        display: flex;
+    }
+    svg{
+        cursor: pointer;
+    }
+    svg.disabled{
+        display: none;
+    }
+    input + div{
+        position: absolute;
+        bottom: -20px;
+        left: 0;
+    }
+</style>
+<body>
+    <nav>
+        <div class="search-wrapper">
+            <svg class='open-search' width="24" height="24" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15.5 15.5L19 19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M5 11C5 14.3137 7.68629 17 11 17C12.6597 17 14.1621 16.3261 15.2483 15.237C16.3308 14.1517 17 12.654 17 11C17 7.68629 14.3137 5 11 5C7.68629 5 5 7.68629 5 11Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <div class="search-input">
+                <input type="search" class="search" placeholder="Search..." maxlength="50">
+                <div>Осталось
+                    <span class="input-counter">50</span>
+                    знаков
+                </div> 
+                <svg class="close-search" width="30" height="30" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6.75827 17.2426L12.0009 12M17.2435 6.75736L12.0009 12M12.0009 12L6.75827 6.75736M12.0009 12L17.2435 17.2426" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+        </div>
+    </nav>
+
+<script>
+    let open_icon = document.querySelector('.open-search');
+    let search = document.querySelector('.search-input');
+
+
+    const openSearch = event => {      
+        if(event.target.closest('.open-search')){
+            open_icon.classList.add('disabled');
+            search.classList.add('active');
+        }    
+    }
+
+
+    const closeSearch = event => {
+        if (event.target.closest('.close-search') || !event.target.closest('.search-wrapper') || event.code == 'ESCAPE'){
+            open_icon.classList.remove('disabled');
+            search.classList.remove('active');
+        }
+
+    }
+
+
+    open_icon.addEventListener('click', openSearch)
+    document.addEventListener('click', closeSearch);
+    document.addEventListener('keydown', closeSearch);
+
+    let input =  document.querySelector('input');
+    let signs = input.getAttribute('maxlength');
+    let counterSpan = document.querySelector('.input-counter');
+
+
+    const countSigns = () =>{
+        let signsResult = signs - input.value.length;
+        counterSpan.innerText = signsResult;
+    };
+
+
+    input.addEventListener('keyup', event => {
+        countSigns();
+    });     
+
+
+    input.addEventListener('keydown', event => {
+        if (event.repeat){
+            countSigns();
+        }
+    });  
+    
+</script>
+</body>
+</html>
