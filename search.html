@@ -80,6 +80,7 @@
     }
 
 
+    //Close serach on icon click, on ESCAPE press or on click outside the element
     const closeSearch = event => {
         if (event.target.closest('.close-search') || !event.target.closest('.search-wrapper') || event.code == 'ESCAPE'){
             open_icon.classList.remove('disabled');
@@ -93,6 +94,7 @@
     document.addEventListener('click', closeSearch);
     document.addEventListener('keydown', closeSearch);
 
+    //Count signs
     let input =  document.querySelector('input');
     let signs = input.getAttribute('maxlength');
     let counterSpan = document.querySelector('.input-counter');
@@ -108,13 +110,13 @@
         countSigns();
     });     
 
-
+    //Count signs even when key is pinched
     input.addEventListener('keydown', event => {
         if (event.repeat){
             countSigns();
         }
     });  
-    
+
 </script>
 </body>
 </html>
